@@ -45,7 +45,7 @@ export const App = () => {
             'Sorry, there are no photos for you request. Please, try another one.'
           );
         }
-        setImages([...images, ...hits]);
+        setImages(prevImages => [...prevImages, ...hits]);
         setTotalHits(totalHits);
       } catch (error) {
         setError('Sorry, something went wrong. Please, try again.');
