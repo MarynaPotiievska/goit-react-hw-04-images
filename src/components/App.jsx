@@ -56,10 +56,10 @@ export const App = () => {
 
     if (!request) {
       return;
+    } else {
+      fetchImagesByRequest();
     }
-
-    fetchImagesByRequest();
-  }, [request, page, images]);
+  }, [request, page]);
 
   const calcIsLastPage = images.length / totalHits;
 

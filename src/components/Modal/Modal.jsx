@@ -22,7 +22,7 @@ const Modal = ({ largeImageUrl, modalToggle }) => {
     return () => {
       window.removeEventListener('keydown', onClose);
     };
-  }, []);
+  });
 
   return (
     <Overlay onClick={onCloseByOverlay}>
