@@ -1,44 +1,41 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { useEffect } from 'react';
 
 import { ModalWindow, Overlay } from './Modal.styled';
 
-class Modal extends Component {
-  static propTypes = {
-    largeImageUrl: PropTypes.string.isRequired,
-    modalToggle: PropTypes.func.isRequired,
-  };
+const Modal = ({ largeImageUrl, modalToggle }) => {
+  useEffect(() => {
+    window.addEventListener('keydown', onClose);
 
-  componentDidMount() {
-    window.addEventListener('keydown', this.onClose);
-  }
+    return () => {
+      window.removeEventListener('keydown', onClose);
+    };
+  }, []);
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.onClose);
-  }
-
-  onClose = e => {
+  const onClose = e => {
     if (e.code === 'Escape') {
-      this.props.modalToggle(this.props.largeImageUrl);
+      modalToggle(largeImageUrl);
     }
   };
 
-  onCloseByOverlay = e => {
+  const onCloseByOverlay = e => {
     if (e.target === e.currentTarget) {
-      this.props.modalToggle(this.props.largeImageUrl);
+      modalToggle(largeImageUrl);
     }
   };
 
-  render() {
-    const { largeImageUrl } = this.props;
-    return (
-      <Overlay onClick={this.onCloseByOverlay}>
-        <ModalWindow>
-          <img src={largeImageUrl} alt="LargeImage" />
-        </ModalWindow>
-      </Overlay>
-    );
-  }
-}
+  return (
+    <Overlay onClick={onCloseByOverlay}>
+      <ModalWindow>
+        <img src={largeImageUrl} alt="LargeImage" />
+      </ModalWindow>
+    </Overlay>
+  );
+};
+
+Modal.propTypes = {
+  largeImageUrl: PropTypes.string.isRequired,
+  modalToggle: PropTypes.func.isRequired,
+};
 
 export default Modal;
